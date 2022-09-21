@@ -1,16 +1,12 @@
 import axios from "axios";
 
-console.log(window.location.origin);
-console.log(axiosBaseURL);
-
-if (window.location.origin === "http://localhost:8000") {
-  const axiosBaseURL = "http://127.0.0.1:8000"; // development address
-} else {
-  const axiosBaseURL = window.location.origin; // production address
-}
-
-console.log(axiosBaseURL);
-
-export default axios.create({
-	baseURL: axiosBaseURL,
+const instance = axios.create({
+  baseURL:
+    window.location.origin === "http://localhost:8000"
+      ? "http://localhost:8000"
+      : window.location.origin,
+  timeout: 1000,
+  headers: { "Content-Type": "application/json" },
 });
+
+export default instance;
