@@ -1,3 +1,4 @@
+import os
 import traceback
 import sys
 from datetime import date
@@ -7,6 +8,8 @@ from django.core import serializers
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError
 from django.utils import timezone
+from django.views import View
+from django.http import HttpResponse, HttpResponseNotFound
 from ninja import Router, Schema, ModelSchema, Field, Form
 from ninja.security import HttpBearer, APIKeyHeader
 from ninja.errors import HttpError
@@ -129,7 +132,16 @@ def verify_passcode(request, passcode: str):
 
 
 
+class Assets(View):
 
+    def get(self, _request, filename):
+        path = os.path.join(os.path.dirname(__file__), 'static', filename)
+
+        if os.path.isfile(path):
+            with open(path, 'rb') as file:
+                return HttpResponse(file.read(), content_type='application/javascript')
+        else:
+            return HttpResponseNotFound()
 
 
 

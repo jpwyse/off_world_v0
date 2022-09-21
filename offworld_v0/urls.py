@@ -32,3 +32,4 @@ urlpatterns += static(settings.MEDIA_URL,
 
 # This is will cath the routes in the frontend and 404 errors
 urlpatterns += [re_path(r'^.*', TemplateView.as_view(template_name='index.html'))]
+#urlpatterns += patterns(”, (r’^static/(?P.*)$’, ‘django.views.static.serve’, {‘document_root’: settings.STATIC_ROOT}),)
