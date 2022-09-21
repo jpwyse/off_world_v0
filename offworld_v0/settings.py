@@ -30,7 +30,16 @@ SECRET_KEY = os.environ['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+if DEBUG:
+    ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+else:
+    ALLOWED_HOSTS = ['https://off-world-v0.herokuapp.com/']
+
+CORS_ORIGIN_ALLOW_ALL = True
+#ALLOWED_HOSTS = ['*']
+#ALLOWED_HOSTS = ['off-world-v0.herokuapp.com', '127.0.0.1:8000', 'localhost']
+
+ROOT_URLCONF = 'offworld_v0.urls'
 
 
 # Application definition
@@ -58,13 +67,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-CORS_ORIGIN_ALLOW_ALL = True
-ALLOWED_HOSTS = ['*']
-#ALLOWED_HOSTS = ['off-world-v0.herokuapp.com', '127.0.0.1:8000', 'localhost']
-
-ROOT_URLCONF = 'offworld_v0.urls'
 
 TEMPLATES = [
     {
@@ -98,10 +100,6 @@ DATABASES = {
 
 DATABASES = {}
 DATABASES['default'] = dj_database_url.config(conn_max_age=600)
-
-options = DATABASES['default'].get('OPTIONS', {})
-options.pop('sslmode', None)
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -147,16 +145,20 @@ AUTH_USER_MODEL = 'Users.User'
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'build/static')
 ]
-
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-django_heroku.settings(locals())
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 try:
     from .local_settings import *
 except ImportError:
     pass
 
+django_heroku.settings(locals())
+options = DATABASES['default'].get('OPTIONS', {})
+options.pop('sslmode', None)
