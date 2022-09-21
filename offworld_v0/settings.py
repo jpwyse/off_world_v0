@@ -61,7 +61,8 @@ MIDDLEWARE = [
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 CORS_ORIGIN_ALLOW_ALL = True
-ALLOWED_HOSTS = ['off-world-v0.herokuapp.com', '127.0.0.1:8000', 'localhost']
+ALLOWED_HOSTS = ['*']
+#ALLOWED_HOSTS = ['off-world-v0.herokuapp.com', '127.0.0.1:8000', 'localhost']
 
 ROOT_URLCONF = 'offworld_v0.urls'
 
